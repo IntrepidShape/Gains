@@ -1,11 +1,4 @@
-let confetti;
-
-async function loadConfetti() {
-  const module = await import('canvas-confetti');
-  confetti = module.default;
-}
-
-loadConfetti();
+let confetti = window.confetti;
 
 function calculateAge(birthDateStr) {
   const birthDate = new Date(birthDateStr);
@@ -54,5 +47,9 @@ function updateAge() {
   checkCelebration(ageNumber);
 }
 
-window.setInterval(updateAge, 1000 / 60);
-updateAge();
+function startAgeUpdates() {
+  window.setInterval(updateAge, 1000 / 60);
+  updateAge();
+}
+
+startAgeUpdates();
