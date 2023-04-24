@@ -1,12 +1,13 @@
 ---
-import Layout from '../layouts/Page.astro'
-import Container from '../components/Container.astro';
-import SignupForm from '../components/SignupForm.astro';
+import Layout from "../layouts/Page.astro";
+import Container from "../components/Container.astro";
+import confetti from 'canvas-confetti';
+
 
 const seo = {
-  title: 'Cannonball by Little Sticks | A splash page template',
-  description: 'This is a simple splash page template built with Astro by Little Sticks',
-}
+  title: "Jake's high precision brithday",
+  description: "woow",
+};
 ---
 
 <style>
@@ -18,15 +19,68 @@ const seo = {
     min-height: 70vh;
     text-align: center;
   }
+
+  .celebration {
+    color: #f9d71c; /* yellow */
+  }
 </style>
 
 <Layout seo={seo}>
   <Container narrow>
     <article class="hero__article">
-      <h1 class="fade-in">Coming Soon</h1>
-      <p class="fade-in">Be the first to know when our new site is live!</p>
-      <SignupForm />
+      <p class="fade-in">Jake's Age in High Precision</p>
+      <h3 id="age" class="fade-in">years</h3>
+      <script>
+        function calculateAge(birthDateStr) {
+          const birthDate = new Date(birthDateStr);
+          const now = new Date();
+          const ageDifferenceMilliseconds = now - birthDate;
+          const ageInSeconds = ageDifferenceMilliseconds / 1000;
+          const ageInYears = ageInSeconds / (60 * 60 * 24 * 365.2425);
+          return ageInYears.toFixed(9);
+        }
+
+        // const birthDate = "1995-04-24T23:56:00"; // Replace with your actual birthdate and time (YYYY-MM-DDTHH:mm:ss format)
+        const birthDate = "1995-04-24T14:24:00";
+        let celebrationDone = false;
+
+        function checkCelebration(ageNumber) {
+          if (!celebrationDone && ageNumber > 28) {
+            console.log("Celebration triggered!"); // Debugging log
+
+            // Trigger confetti effect
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 },
+              type: 'confetti', // Change to 'confetti' for rain effect
+            });
+
+            // Add emoji
+            const ageElement = document.getElementById("age");
+            ageElement.innerHTML += " 🥳";
+            ageElement.classList.add("celebration");
+            celebrationDone = true;
+          }
+        }
+
+        function updateAge() {
+          const ageElement = document.getElementById("age");
+          const newAge = calculateAge(birthDate);
+          ageElement.textContent = `${newAge} years`;
+
+          // Convert the age string to a number for comparison
+          const ageNumber = parseFloat(newAge);
+
+          checkCelebration(ageNumber); // Call the new function
+        }
+
+        // Update the age 60 times per second (1000/60 milliseconds)
+        window.setInterval(updateAge, 1000 / 60);
+
+        // Call the updateAge function once initially to display the age
+        updateAge();
+      </script>
     </article>
   </Container>
 </Layout>
-
