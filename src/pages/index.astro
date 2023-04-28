@@ -3,8 +3,8 @@ import Layout from "../layouts/Page.astro";
 import Container from "../components/Container.astro";
 
 const seo = {
-  title: "Jake's high precision birthday",
-  description: "woow",
+  title: "Multiplier of Gains Calculator",
+  description: "The Multiplier of Gains Calculator is a tool to help you calculate how many times you have gained in a given time period.",
 };
 ---
 
@@ -18,25 +18,131 @@ const seo = {
     text-align: center;
   }
 
-  .video-wrapper {
-    display: none;
+  .form-container {
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 10px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
-  .video-wrapper.show {
-    display: block;
+  .form-label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }
-</style>
+
+  .form-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .form-button:hover {
+    background-color: #45a049;
+  }
+
+  h3 {
+    margin-bottom: 20px;
+  }
+</style>  
 
 <Layout seo={seo}>
   <Container narrow>
     <article class="hero__article">
-      <p class="fade-in">Jake's Age in High Precision</p>
-      <h3 id="age" class="fade-in">years</h3>
-      <div class="video-wrapper" id="video-wrapper">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/0mYBSayCsH0?autoplay=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </div>
-      <script type="module" src="/calculateAge.js"></script>
-
+      <h3>Multiplier of Gains Calculator</h3>
+      <form id="multiplierForm">
+        <label for="initialValue">Initial Value:</label>
+        <input
+          type="number"
+          id="initialValue"
+          name="initialValue"
+          step="any"
+          required
+        />
+        <label for="finalValue">Final Value:</label>
+        <input
+          type="number"
+          id="finalValue"
+          name="finalValue"
+          step="any"
+          required
+        />
+        <button type="submit">Calculate</button>
+      </form>
+      <p id="result"></p>
     </article>
+    <section>
+      <h3>Understanding Multiplier of Gains</h3>
+      <p>
+        The Multiplier of Gains Calculator helps you determine how many times
+        your initial investment has increased. It's a measure of growth, often
+        used to compare the performance of different investments. Calculating
+        the multiplier of gains is relatively simple. You divide the final value
+        of your investment by its initial value.
+      </p>
+      <p>
+        For example, if you initially invested $1,000 and it grew to $3,000, the
+        multiplier of gains would be 3x. This means that your investment has
+        tripled in value. The higher the multiplier, the better your investment
+        performance. Keep in mind that this calculation does not take into
+        account the time it took for your investment to grow, which is an
+        essential factor when comparing different investments.
+      </p>
+      <h3>How the Multiplier of Gains Affects Your Investments</h3>
+      <p>
+        Understanding the multiplier of gains is crucial when evaluating your
+        investments. It can help you make informed decisions about whether to
+        continue holding an investment, sell it, or invest more. A high
+        multiplier may indicate a successful investment strategy or a
+        well-performing asset. Conversely, a low or negative multiplier suggests
+        that your investment may not be performing as expected or that you might
+        need to reconsider your strategy.
+      </p>
+      <p>
+        The multiplier of gains is also useful for comparing the performance of
+        various investments. By calculating the multiplier for each investment,
+        you can determine which investments are outperforming others and
+        potentially allocate more funds to those with higher multipliers.
+      </p>
+      <p>
+        However, it's essential to remember that past performance does not
+        guarantee future results. While the multiplier of gains can provide
+        valuable insights, it's just one of many factors to consider when
+        evaluating your investments. Always take a holistic approach,
+        considering factors such as the investment's risk, fees, and your own
+        financial goals and risk tolerance.
+      </p>
+    </section>
+    <script>
+      document
+        .getElementById("multiplierForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+          const initialValue = parseFloat(
+            event.target.elements.initialValue.value
+          );
+          const finalValue = parseFloat(event.target.elements.finalValue.value);
+
+          function multiplierIncrease(initialValue, finalValue) {
+            if (initialValue === 0) {
+              return "Initial value cannot be zero.";
+            }
+            const multiplier = finalValue / initialValue;
+            return multiplier.toFixed(2); // Format the result to 2 decimal places
+          }
+
+          const result = multiplierIncrease(initialValue, finalValue);
+          document.getElementById(
+            "result"
+          ).innerHTML = `You made a ${result} x`;
+        });
+    </script>
   </Container>
 </Layout>
